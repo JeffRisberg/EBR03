@@ -1,4 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+    actions: {
+        addNew: function () {
+            var name = this.controller.get('name');
+            var user = this.store.createRecord('user', {
+                name: name
+            });
+            user.save().then(() => {
+                console.log('Save successful');
+                this.controller.set('message', 'A new user with the name "' + this.controller.get('name') + '" was added!');
+                this.controller.set('name', null);
+            }, function () {
+                console.log('Save failed');
+            });
+        }
+    }
 });
