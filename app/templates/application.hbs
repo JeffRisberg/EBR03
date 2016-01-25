@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            Welcome to EmberNote
+            Welcome to EBR03
         </div>
-        <div class="col-md-10">
+        <div class="col-md-8">
             {{#if user}}
                 Hello, {{user.name}}
             {{/if}}
@@ -11,6 +11,9 @@
                 {{#link-to 'register'}}Register{{/link-to}}&nbsp;
                 {{#link-to 'login'}}Login{{/link-to}}
             {{/unless}}
+        </div>
+        <div class="col-md-2">
+            {{#link-to 'dashboard'}}Dashboard{{/link-to}}
         </div>
     </div>
     <div class="row">
