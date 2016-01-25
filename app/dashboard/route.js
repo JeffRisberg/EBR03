@@ -3,14 +3,15 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
     model: function (params) {
-        var userId = params.user_id;
+        //var userId = params.user_id;
+        console.log(params);
 
         //var configuration = this.modelFor('configured');
         //var currentSeason = configuration.get('currentSeason');
-        //var currentWeekIndex = configuration.get('currentWeekIndex');
+        var currentWeekIndex = 3;//configuration.get('currentWeekIndex');
 
         // Get the chart data
-        //var episodeVoteSummaries = this.get('store').query('episode-vote-summary/' + currentWeekIndex);
+        var charityDonationSummaries = this.get('store').query('charity-donation-summary', {currentWeekIndex: currentWeekIndex});
 
         var chartData = [];
         var chart;
@@ -49,26 +50,27 @@ export default Ember.Route.extend({
         chartData.push(chart);
 
         // check the episodeVoteSummaries
-        /*
-         var newChartData = {};
-         episodeVoteSummaries.forEach(function (evs) {
-         // get the series
-         var series = evs.get("series");
-         var seriesTitle = series.get("title");
-         var chartData = newChartData[seriesTitle];
 
-         if (chartData == null) {
-         chartData = {};
-         chartData.name = series.name;
-         chartData.color = "green";
-         newChartData[seriesTitle] = chartData;
-         }
+        var newChartData = {};
+        charityDonationSummaries.forEach(function (evs) {
+            // get the series
+            var charity = evs.get("charity");
+            var charityTitle = charity.get("title");
+            console.log(charityTitle);
+            var chartData = newChartData[charityTitle];
 
-         // now add to the time values
-         // to be written
-         });
-         console.log(newChartData);
-         */
+            if (chartData == null) {
+                chartData = {};
+                //chartData.name = series.get(name);
+                chartData.color = "green";
+                newChartData[charityTitle] = chartData;
+            }
+
+            // now add to the time values
+            // to be written
+        });
+        console.log(newChartData);
+
 
         Ember.run.scheduleOnce('afterRender', this, function () {
             console.log("beginAfterRender");
