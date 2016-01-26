@@ -12,6 +12,7 @@ Router.map(function() {
     this.route('notes', { path: 'notes/:notebook_id'}, function() {});
   });
   this.route('dashboard');
+  this.route('configured');
 });
 
 export default Router;
