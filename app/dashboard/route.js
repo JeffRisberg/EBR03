@@ -6,6 +6,9 @@ export default Ember.Route.extend({
         //var userId = params.user_id;
         console.log(params);
 
+        var seriesData = [];
+        var graph;
+
         //var configuration = this.modelFor('configured');
         //var currentSeason = configuration.get('currentSeason');
         var currentWeekIndex = 3;//configuration.get('currentWeekIndex');
@@ -13,76 +16,45 @@ export default Ember.Route.extend({
         // Get the chart data
         this.get('store').query('charity-donation-summary', {currentWeekIndex: currentWeekIndex})
             .then(function (data) {
-                console.log(data);
-
+                var p = d3.scale.category10();
                 var newChartData = {};
+                var charityCount = 0;
+
                 data.forEach(function (evs) {
                     // get the series
-                    var charity = evs.get("charity");
-                    var charityTitle = charity.get("title");
-                    console.log(charityTitle);
+                    var charityTitle = evs.get("charityTitle");
                     var chartData = newChartData[charityTitle];
 
                     if (chartData == null) {
                         chartData = {};
-                        //chartData.name = series.get(name);
-                        chartData.color = "green";
+                        chartData.name = charityTitle;
+                        chartData.color = p(charityCount);
                         chartData.data = [];
                         newChartData[charityTitle] = chartData;
+                        charityCount++;
                     }
 
                     // now add to the time values
                     chartData.data.push({x: evs.get("weekStartDate"), y: evs.get("rawScore")});
                 });
-                console.log(newChartData);
+                $.each(newChartData, function (k, v) {
+                    seriesData.push(v);
+                });
+                graph.update();
+                $('#legend').empty();
+                new Rickshaw.Graph.Legend({
+                    element: document.querySelector('#legend'),
+                    graph: graph
+                });
             });
 
-        var chartData = [];
-        var chart;
-
-        chart = {
-            name: "Charity1",
-            data: [
-                {x: 1449101800, y: 10},
-                {x: 1449706600, y: 20},
-                {x: 1450311401, y: 30}
-            ],
-            color: 'red'
-        };
-        chartData.push(chart);
-
-        chart = {
-            name: "Charity2",
-            data: [
-                {x: 1449101800, y: 20},
-                {x: 1449706600, y: 19},
-                {x: 1450311401, y: 24}
-            ],
-            color: 'blue'
-        };
-        chartData.push(chart);
-
-        chart = {
-            name: "Charity3",
-            data: [
-                {x: 1449101800, y: 12},
-                {x: 1449706600, y: 22},
-                {x: 1450311401, y: 29}
-            ],
-            color: 'green'
-        };
-        chartData.push(chart);
-
         Ember.run.scheduleOnce('afterRender', this, function () {
-            console.log("beginAfterRender");
-
-            /* jshint ignore:start */
-            var graph = new Rickshaw.Graph({
+            graph = new Rickshaw.Graph({
                 element: document.querySelector("#chart"),
                 width: 540,
                 height: 240,
                 renderer: 'line',
-                series: chartData
+                series: seriesData
             });
 
             var x_axis = new Rickshaw.Graph.Axis.Time({graph: graph});
@@ -94,24 +66,15 @@ export default Ember.Route.extend({
                 element: document.getElementById('y_axis')
             });
 
-            var legend = new Rickshaw.Graph.Legend({
+            new Rickshaw.Graph.Legend({
                 element: document.querySelector('#legend'),
                 graph: graph
             });
 
-            console.log(graph);
-            console.log(x_axis);
-            console.log(y_axis);
-            console.log(legend);
-
             graph.render();
-            /* jshint ignore:end */
-            console.log("endAfterRender");
         });
 
-        return {
-            chartData: chartData
-        };
+        return null;
     },
 
     actions: {}

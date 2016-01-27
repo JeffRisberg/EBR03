@@ -1,18 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    tagName: 'canvas',
-    attributeBindings: ['width', 'height'],
+    //tagName: 'canvas',
+    //attributeBindings: ['width', 'height'],
 
-    didInsertElement: function(){
-        console.log("didInsertElement");
-    },
+    //didInsertElement: function(){
+    //    console.log("didInsertElement");
+    //},
 
-    willDestroyElement: function(){
-        console.log("willDestroyElement");
-    },
-
-    updateChart: function(){
-
-    }
+    //willDestroyElement: function(){
+    //    console.log("willDestroyElement");
+    //},
 });

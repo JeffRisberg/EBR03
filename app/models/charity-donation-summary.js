@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-    charity: DS.belongsTo('charity', {async: true}),
+    charityTitle: DS.attr('string'),
     weekIndex: DS.attr('number'),
     weekStartDate: DS.attr('number'),
 
