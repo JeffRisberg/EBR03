@@ -17,7 +17,10 @@ export default Ember.Route.extend({
         var currentWeekIndex = 3;//configuration.get('currentWeekIndex');
 
         // Get the chart data
-        this.get('store').query('charity-donation-summary', {startWeekIndex: currentWeekIndex, endWeekIndex: currentWeekIndex})
+        this.get('store').query('charity-donation-summary', {
+            startWeekIndex: currentWeekIndex,
+            endWeekIndex: currentWeekIndex
+        })
             .then(function (data) {
                 var p = d3.scale.category10();
                 var newChartData = {};
@@ -38,7 +41,7 @@ export default Ember.Route.extend({
                     }
 
                     // now add to the time values
-                    chartData.data.push({x: evs.get("weekStartDate"), y: evs.get("rawScore")});
+                    chartData.data.push({x: evs.get("weekStartDate") / 1000, y: evs.get("rawScore")});
                 });
                 $.each(newChartData, function (k, v) {
                     seriesData.push(v);
@@ -60,7 +63,13 @@ export default Ember.Route.extend({
                 series: seriesData
             });
 
-            new Rickshaw.Graph.Axis.Time({graph: graph});
+            new Rickshaw.Graph.HoverDetail( {
+                graph: graph
+            } );
+
+            new Rickshaw.Graph.Axis.Time({
+                graph: graph
+            });
 
             new Rickshaw.Graph.Axis.Y({
                 graph: graph,
