@@ -1,5 +1,8 @@
 import Ember from 'ember';
 
+/*global $:false */
+/*global d3:false */
+/*global Rickshaw:false */
 export default Ember.Route.extend({
 
     model: function (params) {
@@ -14,7 +17,7 @@ export default Ember.Route.extend({
         var currentWeekIndex = 3;//configuration.get('currentWeekIndex');
 
         // Get the chart data
-        this.get('store').query('charity-donation-summary', {currentWeekIndex: currentWeekIndex})
+        this.get('store').query('charity-donation-summary', {startWeekIndex: currentWeekIndex, endWeekIndex: currentWeekIndex})
             .then(function (data) {
                 var p = d3.scale.category10();
                 var newChartData = {};
@@ -57,9 +60,9 @@ export default Ember.Route.extend({
                 series: seriesData
             });
 
-            var x_axis = new Rickshaw.Graph.Axis.Time({graph: graph});
+            new Rickshaw.Graph.Axis.Time({graph: graph});
 
-            var y_axis = new Rickshaw.Graph.Axis.Y({
+            new Rickshaw.Graph.Axis.Y({
                 graph: graph,
                 orientation: 'left',
                 tickFormat: Rickshaw.Fixtures.Number.formatKMBT,

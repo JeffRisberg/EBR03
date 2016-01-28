@@ -18,9 +18,9 @@ module.exports = function (app) {
                     {_id: "12", id: 12, charityTitle: "Charity2", rank: 1, rawScore: 35, weekIndex: 2, weekStartDate: 1449706600},
                     {_id: "13", id: 13, charityTitle: "Charity3", rank: 3, rawScore: 15, weekIndex: 2, weekStartDate: 1449706600},
 
-                    {_id: "21", id: 21, charityTitle: "Charity1", rank: 3, rawScore: 20, weekIndex: 3, weekStartDate: 1450311401},
-                    {_id: "22", id: 22, charityTitle: "Charity2", rank: 2, rawScore: 25, weekIndex: 3, weekStartDate: 1450311401},
-                    {_id: "23", id: 23, charityTitle: "Charity3", rank: 1, rawScore: 30, weekIndex: 3, weekStartDate: 1450311401}
+                    {_id: "21", id: 21, charityTitle: "Charity1", rank: 3, rawScore: 20, weekIndex: 3, weekStartDate: 1450311400},
+                    {_id: "22", id: 22, charityTitle: "Charity2", rank: 2, rawScore: 25, weekIndex: 3, weekStartDate: 1450311400},
+                    {_id: "23", id: 23, charityTitle: "Charity3", rank: 1, rawScore: 30, weekIndex: 3, weekStartDate: 1450311400}
                 ]
             }
         );
