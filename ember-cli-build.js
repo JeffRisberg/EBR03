@@ -25,5 +25,7 @@ module.exports = function (defaults) {
         destDir: 'assets'
     });
 
+    app.import('bower_components/moment/moment.js');
+
     return app.toTree();
 };
