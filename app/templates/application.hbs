@@ -3,7 +3,7 @@
         <div class="col-md-2">
             Welcome to EBR03
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7">
             {{#if user}}
                 Hello, {{user.name}}
             {{/if}}
@@ -12,9 +12,10 @@
                 {{#link-to 'login'}}Login{{/link-to}}
             {{/unless}}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             {{#link-to 'configured'}}Configured{{/link-to}}
             {{#link-to 'dashboard'}}Dashboard{{/link-to}}
+            {{#link-to 'charities'}}Charities{{/link-to}}
         </div>
     </div>
     <div class="row">

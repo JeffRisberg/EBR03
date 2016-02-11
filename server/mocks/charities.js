@@ -6,30 +6,53 @@ module.exports = function (app) {
     var bodyParser = require('body-parser');
     app.use(bodyParser.json());
 
-    var charities = [
-        {_id: "1", id: 1, title: "Charity1"},
-        {_id: "2", id: 2, title: "Charity2"},
-        {_id: "3", id: 3, title: "Charity3"},
-        {_id: "4", id: 4, title: "Charity4"},
-        {_id: "5", id: 5, title: "Charity5"}
-    ];
+    // Create an embedded table using NEDB if it doesn't exist yet
+    var nedb = require('nedb');
+    var charityDB = new nedb({filename: 'charities', autoload: true});
+
+    charitiesRouter.post('/', function (req, res) {
+
+        // Look for the most recently created record
+        charityDB.find({}).sort({id: -1}).limit(1).exec(function (err, charities) {
+
+            if (charities.length != 0)
+                req.body.charity.id = charities[0].id + 1;
+            else
+                req.body.charity.id = 1;
+
+            // Insert the new record
+            charityDB.insert(req.body.charity, function (err, newCharity) {
+                res.status(201);
+                res.send(JSON.stringify({charity: newCharity}));
+            })
+        });
+    });
 
     charitiesRouter.get('/', function (req, res) {
-        res.send(
-            {
-                "charities": charities
-            }
-        );
+        charityDB.find(req.query).exec(function (error, charities) {
+            res.send({charities: charities});
+        });
     });
 
     charitiesRouter.get('/:id', function (req, res) {
-        var id = req.params.id;
+        charityDB.find(req.query).exec(function (error, charities) {
+            res.send({
+                'charities': charities
+            });
+        });
+    });
 
-        res.send(
-            {
-                "charity": charities[id-1]
+    // For now, we won't change from here down to the end
+    charitiesRouter.put('/:id', function (req, res) {
+        res.send({
+            'charities': {
+                id: req.params.id
             }
-        );
+        });
+    });
+
+    charitiesRouter.delete('/:id', function (req, res) {
+        res.status(204).end();
     });
 
     app.use('/api/charities', charitiesRouter);

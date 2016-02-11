@@ -1,0 +1,17 @@
+<h4>Charities</h4>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>&nbsp;&nbsp;&nbsp;</th>
+        <th style="text-align:right">EIN</th>
+    </tr>
+    </thead>
+    {{#each model as |charity|}}
+        <tr>
+            <td>{{charity.title}} </td>
+            <td></td>
+            <td style="text-align: right">{{charity.ein}}</td>
+        </tr>
+    {{/each}}
+</table>
